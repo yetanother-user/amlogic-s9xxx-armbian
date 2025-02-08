@@ -195,10 +195,10 @@ on:
       kernel_repo:
         description: "Set the kernel repository."
         required: false
-        default: "ophub/kernel"
+        default: "yetanother-user/kernel"
         type: choice
         options:
-          - ophub/kernel
+          - yetanother-user/kernel
       kernel_usage:
         description: "Set the tags of the stable kernel."
         required: false
@@ -228,12 +228,13 @@ on:
       builder_name:
         description: "Set Armbian builder signature."
         required: false
-        default: "ophub"
+        default: "yetanother-user"
         type: choice
         options:
           - ophub
           - angel
           - yourname
+          - yetanother-user
 
 env:
   TZ: America/New_York
@@ -260,7 +261,7 @@ jobs:
           sudo rm -f /swapfile /mnt/swapfile
           sudo -E apt-get -y update
           sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-          sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_armbian)
+          sudo -E apt-get -y install $(curl -fsSL "https://raw.githubusercontent.com/yetanother-user/amlogic-s9xxx-armbian/refs/heads/main/compile-kernel/tools/script/ubuntu2204-build-armbian-depends")
           sudo -E systemctl daemon-reload
           #sudo -E apt-get -y full-upgrade
           sudo -E apt-get -y autoremove --purge
@@ -296,7 +297,7 @@ jobs:
           df -hT ${PWD}
           git clone -q --single-branch --depth=1 --branch=main https://github.com/armbian/build.git build
           ln -sf /builder/build ${GITHUB_WORKSPACE}/build
-          ln -sf /builder/build /home/runner/work/_actions/ophub/amlogic-s9xxx-armbian/main/build
+          ln -sf /builder/build /home/runner/work/_actions/yetanother-user/amlogic-s9xxx-armbian/main/build
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Compile Armbian [ ${{ inputs.set_release }} ]
